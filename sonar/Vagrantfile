@@ -1,0 +1,74 @@
+# Copyright 2011 MaestroDev
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+# Prerequisite: ruby git gem
+# $ gem install git
+
+require 'rubygems'
+require 'git'
+
+# fetch required puppet modules
+modules = ["maven", "wget"]
+
+modules.each do |m|
+  repo = "git://github.com/maestrodev/puppet-#{m}.git"
+  dir = "modules/#{m}"
+  if !File.exist?(dir)
+    puts "Fetch puppet module #{m} from #{repo}"
+    Git.clone(repo, dir)
+  else
+    # Git.open(dir).pull
+  end
+end
+
+
+Vagrant::Config.run do |config|
+
+  # Every Vagrant virtual environment requires a box to build off of.
+#  config.vm.box = "ubuntu-lucid-64"
+#  config.vm.box = "puppet-centos-55-64"
+#  config.vm.box = "puppet-centos-4-64"
+  config.vm.box = "centos-6.0-x86_64"
+
+  # The url from where the 'config.vm.box' box will be fetched if it
+  # doesn't already exist on the user's system.
+  #config.vm.box_url = "http://dl.dropbox.com/u/1627760/centos-6.0-x86_64.box"
+
+  # Boot with a GUI so you can see the screen. (Default is headless)
+  #config.vm.boot_mode = :gui
+
+  # Assign this VM to a host only network IP, allowing you to access it
+  # via the IP.
+  # config.vm.network "33.33.33.10"
+
+  # Forward a port from the guest to the host, which allows for outside
+  # computers to access the VM, whereas host only networking does not.
+
+  config.vm.forward_port "sonar", 9000, 19000
+
+  # VBoxManage modifyvm "vagrant_1316417688" --natpf1 "guestssh,tcp,,2222,,22"
+
+  # Enable provisioning with Puppet stand alone.
+
+  config.vm.share_folder("templates", "/tmp/vagrant-puppet/templates", "templates")
+
+  config.vm.provision :puppet do |puppet|
+    puppet.manifest_file = "base.pp"
+    puppet.module_path = "modules"
+    puppet.options = ["--templatedir","/tmp/vagrant-puppet/templates"]
+    puppet.options = "-v -d"
+  end
+
+end
