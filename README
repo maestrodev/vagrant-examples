@@ -31,8 +31,10 @@ https://github.com/maestrodev/puppet-wget
   Defines two Vagrant boxes, one acting as Puppet master and the other one a Puppet agent to that master
   Useful to test more complex Puppet manifests, check what runs in the master vs. what runs in the agent,...
   Used to test the puppet-maven module amongst other things
+  Run "vagrant up; vagrant ssh client" to get into the puppet agent box
 
 /sonar
 
   Defines a Vagrant box with Sonar installed using the puppet-sonar module
-
+  Run "vagrant up; vagrant ssh" to get into the puppet agent box
+  Go to http://localhost:19000/ to access Sonar
