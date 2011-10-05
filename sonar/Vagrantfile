@@ -20,7 +20,7 @@ require 'rubygems'
 require 'git'
 
 # fetch required puppet modules
-modules = ["maven", "wget"]
+modules = ["maven", "wget", "sonar"]
 
 modules.each do |m|
   repo = "git://github.com/maestrodev/puppet-#{m}.git"
