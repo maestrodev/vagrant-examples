@@ -25,3 +25,14 @@ https://github.com/maestrodev/puppet-sonar
 https://github.com/maestrodev/puppet-wget
 ...
 
+
+/puppet
+
+  Defines two Vagrant boxes, one acting as Puppet master and the other one a Puppet agent to that master
+  Useful to test more complex Puppet manifests, check what runs in the master vs. what runs in the agent,...
+  Used to test the puppet-maven module amongst other things
+
+/sonar
+
+  Defines a Vagrant box with Sonar installed using the puppet-sonar module
+
