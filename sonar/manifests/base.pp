@@ -31,17 +31,18 @@ $jdbc = {
   password => "sonar",
 }
 
-$java_home = "/usr/lib/jvm/java-1.6.0"
+# $ldap = {
+#   hostname => "ldap.acme.com",
+#   ssl => true,
+#   port => "636",
+#   dn => "o=acme",
+#   bind_dn => "cn=admin,ou=system,o=acme",
+#   bind_password => "mypassword",
+#   admin_user => "admin"
+# }
 
-define install-gem ($version = '') {
-  exec { "gem $name $version":
-    path => "/usr/bin:/opt/ruby/bin",
-    environment => "JAVA_HOME=${java_home}",
-    command => "gem install $name --version $version --no-rdoc --no-ri",
-    unless => "gem query -i --name-matches $name --version $version",
-    logoutput => true,
-  }
-}
+
+$java_home = "/usr/lib/jvm/java-1.6.0"
 
 # Install Java https://help.ubuntu.com/community/Java
 # Another option: sun-java6-jdk
@@ -54,6 +55,13 @@ package { jdk:
   },
 } ->
 
+
+# stdlib module from http://forge.puppetlabs.com/puppetlabs/stdlib
+package { "puppet-module" :
+  provider => "gem",
+} ->
+class { "maven::maven" : } ->
 class { "sonar" :
   version => "2.11",
+#  ldap => $ldap,
 }
