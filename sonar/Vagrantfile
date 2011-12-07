@@ -33,6 +33,15 @@ modules.each do |m|
   end
 end
 
+# PuppetLabs stdlib
+m = "puppetlabs-stdlib"
+repo = "https://github.com/puppetlabs/puppetlabs-stdlib"
+dir = "modules/#{m}"
+if !File.exist?(dir)
+  puts "Fetch puppet module #{m} from #{repo}"
+  g = Git.clone(repo, dir)
+  g.checkout("v2.2.0")
+end
 
 Vagrant::Config.run do |config|
 
