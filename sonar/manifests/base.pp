@@ -65,3 +65,11 @@ class { "sonar" :
   version => "2.12",
   #ldap => $ldap,
 }
+
+# Install a Sonar plugin
+plugin { "sonar-twitter-plugin" :
+  groupid => "org.codehaus.sonar-plugins",
+  artifactid => "sonar-twitter-plugin",
+  version => "0.1",
+  notify => Service["sonar"],
+}
