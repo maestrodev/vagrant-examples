@@ -31,15 +31,15 @@ $jdbc = {
   password => "sonar",
 }
 
-# $ldap = {
-#   hostname => "ldap.acme.com",
-#   ssl => true,
-#   port => "636",
-#   dn => "o=acme",
-#   bind_dn => "cn=admin,ou=system,o=acme",
-#   bind_password => "mypassword",
-#   admin_user => "admin"
-# }
+$ldap = {
+  hostname => "ldap.acme.com",
+  ssl => true,
+  port => "636",
+  dn => "o=acme",
+  bind_dn => "cn=admin,ou=system,o=acme",
+  bind_password => "mypassword",
+  admin_user => "admin"
+}
 
 
 $java_home = "/usr/lib/jvm/java-1.6.0"
@@ -62,6 +62,6 @@ package { "puppet-module" :
 } ->
 class { "maven::maven" : } ->
 class { "sonar" :
-  version => "2.11",
-#  ldap => $ldap,
+  version => "2.12",
+  #ldap => $ldap,
 }
